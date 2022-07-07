@@ -1,0 +1,6 @@
+[submodule "backend"]
+	path = backend
+	url = https://github.com/SiliconValley22-Blossom/backend.git
+[submodule "frontend"]
+	path = frontend
+	url = https://github.com/SiliconValley22-Blossom/frontend.git
