@@ -2,14 +2,9 @@ version: "3"
 
 services:
 
-
   backend:
     build:
       context: ./backend
-      args:
-        DJANGO_ALLOWED_HOSTS: "*"
-        DJANGO_SECRET_KEY: "*"
-        DJANGO_CORS_ORIGIN_WHITELIST: "*"
     command: flask run --host=0.0.0.0 --port=5000
     ports:
       - 8000:5000
@@ -17,6 +12,10 @@ services:
       - ./backend/:/backend/
     expose:
       - 8000
+    environment:
+      FLASK_DEBUG: 1
+      FLASK_APP: ./app.py
+
 
   frontend:
     build:
@@ -30,8 +29,8 @@ services:
     environment:
       - CI=true
       - CHOKIDAR_USEPOLLING=true
-      - REACT_APP_BACKEND_URL=http://localhost:8000
+      - REACT_APP_BACKEND_URL=http://localhost:5000
     tty: true
 
-volumes:
-  postgres_data_dev: null
+#volumes:
+ # postgres_data_dev: null
