@@ -15,8 +15,16 @@ git config -f .gitmodules submodule.backend.branch develop
 git submodule update --remote
 ```
 
-## clone 후 처음 실행
+# clone 후 처음 실행
+## frontend yarn 받기 (node 업데이트 권장)
 ```
+cd frontend
+yarn install
+```
+
+## 프로젝트 루트로 이동 후 빌드
+```
+cd ../
 docker compose up --build
 ```
 
