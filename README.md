@@ -1,4 +1,8 @@
-# docker
+## 프로젝트 클론
+```
+git clone --recursive https://github.com/SiliconValley22-Blossom/docker.git
+```
+
 ## 서브모듈 동기화 시 develop 브랜치로 변경
 
 ```
