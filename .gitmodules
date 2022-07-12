@@ -6,3 +6,7 @@
 	path = frontend
 	url = https://github.com/SiliconValley22-Blossom/frontend.git
 	branch = develop
+[submodule "colorization-AI"]
+	path = colorization-AI
+	url = https://github.com/SiliconValley22-Blossom/colorization-AI.git
+	branch = main
