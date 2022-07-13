@@ -1,0 +1,92 @@
+
+version: "3"
+
+###########################################################
+# docker-compose -f docker-compose.prod.yml up
+###########################################################
+
+services:
+  backend:
+    build:
+      context: ./backend
+
+    command: gunicorn app:app -b 0.0.0.0:8000 -w 2--timeout=10 -k gevent
+    env_file:
+      - ./settings/dev.env
+    environment:
+      FLASK_APP: ./app.py
+    networks:
+      - app-tier
+    volumes:
+    ports:
+      - 8000:8000
+
+  frontend:
+    build:
+      context: ./frontend
+    command: ["npm", "run", "build"]
+
+    networks:
+      - app-tier
+    volumes:
+     - ./frontend:/app
+    ports:
+      - 3000:3000
+
+  colorization-AI:
+    build:
+      context: ./colorization
+
+    command: flask run --host=0.0.0.0 --port=5050
+
+    networks:
+      - app-tier
+    env_file:
+      - ./setting/.env
+    environment:
+      FLASK_APP: ./app.py
+    ports:
+      - 5050:5050
+
+  nginx:
+    build: ./nginx
+    ports:
+      - 80:8080
+    volumes:
+      - ./frontend/build:/var/www/frontend
+    depends_on:
+      - backend
+      - frontend
+    networks:
+      - app-tier
+
+  rabbit:
+    hostname: rabbit
+    image: rabbitmq:3-management
+    # environment:
+    #   - RABBITMQ_DEFAULT_USER=admin
+    #   - RABBITMQ_DEFAULT_PASS=mypass
+    networks:
+      - app-tier
+    ports:
+      - 5672:5672
+      - 15672:15672
+
+  celery:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    env_file:
+      - ./settings/dev.env
+    depends_on:
+      - rabbit
+      - backend
+    networks:
+      - app-tier
+    command: celery -A tasks worker --loglevel=info
+    volumes:
+      - ./backend:/usr/src/app
+  
+networks:
+  app-tier:
+    driver: bridge
