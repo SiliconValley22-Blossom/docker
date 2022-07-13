@@ -32,3 +32,8 @@ docker compose up --build
 ```
 docker compose up
 ```
+
+# 배포 환경 실행
+```
+docker-compose -f docker-compose.prod.yml up
+```
