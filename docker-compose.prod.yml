@@ -1,48 +1,50 @@
 
 version: "3"
 
-###########################################################
+# 실행 방법
 # docker-compose -f docker-compose.prod.yml up
-###########################################################
 
 services:
   backend:
     build:
       context: ./backend
 
-    command: gunicorn app:app -b 0.0.0.0:8000 -w 2--timeout=10 -k gevent
+    command: gunicorn myapp:create_app() -b 127.0.0.1:8000 -w 2 --timeout=10 -k gevent
     env_file:
-      - ./settings/dev.env
+      - ./settings/.env
     environment:
       FLASK_APP: ./app.py
     networks:
       - app-tier
     volumes:
+      - ./backend/:/backend/
     ports:
       - 8000:8000
 
   frontend:
     build:
       context: ./frontend
-    command: ["npm", "run", "build"]
+    command: ["yarn", "start"]
 
     networks:
       - app-tier
     volumes:
-     - ./frontend:/app
+      - ./frontend/:/frontend
+      - build_folder:/frontend/build
+      - ./frontend/node_modules/:/frontend/node_modules
     ports:
       - 3000:3000
 
-  colorization-AI:
+  colorization-ai:
     build:
-      context: ./colorization
+      context: ./colorization-AI
 
-    command: flask run --host=0.0.0.0 --port=5050
+    command: flask run --host=127.0.0.1 --port=5050
 
     networks:
       - app-tier
     env_file:
-      - ./setting/.env
+      - ./settings/.env
     environment:
       FLASK_APP: ./app.py
     ports:
@@ -63,6 +65,8 @@ services:
   rabbit:
     hostname: rabbit
     image: rabbitmq:3-management
+    command: rabbitmq-server
+    restart: unless-stopped
     # environment:
     #   - RABBITMQ_DEFAULT_USER=admin
     #   - RABBITMQ_DEFAULT_PASS=mypass
@@ -71,22 +75,32 @@ services:
     ports:
       - 5672:5672
       - 15672:15672
+    depends_on:
+      - backend
+      - colorization-ai
 
   celery:
     build:
       context: ./backend
       dockerfile: Dockerfile
+    restart: unless-stopped  
     env_file:
-      - ./settings/dev.env
+      - ./settings/.env
     depends_on:
-      - rabbit
-      - backend
+      - "rabbit"
+      - "backend"
+      - "colorization-ai"
     networks:
       - app-tier
-    command: celery -A tasks worker --loglevel=info
+    command: ["celery","-A", "tasks", "worker", "--loglevel=info"]  
     volumes:
       - ./backend:/usr/src/app
   
 networks:
   app-tier:
     driver: bridge
+
+# 컨테이너 내려도 데이터 유지되도록 함
+volumes:
+  media_volume: null
+  build_folder: null
