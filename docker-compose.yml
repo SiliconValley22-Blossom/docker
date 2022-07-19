@@ -1,36 +1,90 @@
 version: "3"
 
 services:
-
   backend:
     build:
       context: ./backend
-    command: flask run --host=0.0.0.0 --port=5000
-    ports:
-      - 8000:5000
+
+    command: flask run --host=127.0.0.1 --port=5000
+    #env_file:
+    #  - ./settings/.env
+    environment:
+      FLASK_APP: /myapp
+    networks:
+      - app-tier
     volumes:
       - ./backend/:/backend/
-    expose:
-      - 8000
-    environment:
-      FLASK_DEBUG: 1
-      FLASK_APP: ./app.py
-
+    ports:
+      - 5000:5000
 
   frontend:
     build:
       context: ./frontend
-    command: [ "yarn", "start" ]
-    ports:
-      - 80:3000
+    command: ["yarn", "start"]
+
+    networks:
+      - app-tier
     volumes:
       - ./frontend/:/frontend
+      - build_folder:/frontend/build
       - ./frontend/node_modules/:/frontend/node_modules
-    environment:
-      - CI=true
-      - CHOKIDAR_USEPOLLING=true
-      - REACT_APP_BACKEND_URL=http://localhost:5000
-    tty: true
+    ports:
+      - 80:3000
 
-#volumes:
- # postgres_data_dev: null
+  colorization-ai:
+    build:
+      context: ./colorization-AI
+
+    command: flask run --host=127.0.0.1 --port=5555
+
+    networks:
+      - app-tier
+    env_file:
+      - ./settings/.env
+    environment:
+      FLASK_APP: ./app.py
+    ports:
+      - 5555:5555
+
+  rabbit:
+    hostname: rabbit
+    image: rabbitmq:3-management
+    command: rabbitmq-server
+    restart: unless-stopped
+    # environment:
+    #   - RABBITMQ_DEFAULT_USER=admin
+    #   - RABBITMQ_DEFAULT_PASS=mypass
+    networks:
+      - app-tier
+    ports:
+      - 5672:5672
+      - 15672:15672
+    depends_on:
+      - backend
+      - colorization-ai
+
+  celery:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    restart: unless-stopped  
+    env_file:
+      - ./settings/.env
+    depends_on:
+      - "rabbit"
+      - "backend"
+      - "colorization-ai"
+    networks:
+      - app-tier
+    command: ["celery","-A", "myapp.service.PhotoService", "worker", "--loglevel=info"]  
+    volumes:
+      - ./backend:/usr/src/app
+  
+networks:
+  app-tier:
+    driver: bridge
+
+# 컨테이너 내려도 데이터 유지되도록 함
+volumes:
+  media_volume: null
+  build_folder: null
