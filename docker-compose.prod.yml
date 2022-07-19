@@ -45,8 +45,8 @@ services:
       - app-tier
     env_file:
       - ./settings/.env
-#    environment:
-#      FLASK_APP: ./app.py
+    environment:
+      FLASK_APP: ./app.py
     ports:
       - 5555:5555
 
