@@ -9,9 +9,8 @@ services:
     build:
       context: ./backend
 
-    command: gunicorn myapp:create_app() -b 127.0.0.1:8000 -w 2 --timeout=10 -k gevent
-    #env_file:
-    #  - ./settings/.env
+    command: gunicorn myapp:create_app() -b 0.0.0.0:5000 -w 2 --timeout=10 -k gevent
+    env_file: ./settings/prod.env
     environment:
       FLASK_APP: /myapp
     networks:
@@ -19,15 +18,16 @@ services:
     volumes:
       - ./backend/:/backend/
     ports:
-      - 8000:8000
+      - 5000:5000
 
   frontend:
     build:
       context: ./frontend
     command: ["yarn", "start"]
-
     networks:
       - app-tier
+    env_file:
+      - ./settings/prod.env
     volumes:
       - ./frontend/:/frontend
       - build_folder:/frontend/build
@@ -44,7 +44,7 @@ services:
     networks:
       - app-tier
     env_file:
-      - ./settings/.env
+      - ./settings/prod.env
     environment:
       FLASK_APP: ./app.py
     ports:
@@ -67,9 +67,9 @@ services:
     image: rabbitmq:3-management
     command: rabbitmq-server
     restart: unless-stopped
-    # environment:
-    #   - RABBITMQ_DEFAULT_USER=admin
-    #   - RABBITMQ_DEFAULT_PASS=mypass
+    environment:
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_USER}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_PASSWORD}
     networks:
       - app-tier
     ports:
@@ -85,7 +85,7 @@ services:
       dockerfile: Dockerfile
     restart: unless-stopped  
     env_file:
-      - ./settings/.env
+      - ./settings/prod.env
     depends_on:
       - "rabbit"
       - "backend"
