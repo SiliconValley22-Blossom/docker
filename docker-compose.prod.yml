@@ -10,10 +10,10 @@ services:
       context: ./backend
 
     command: gunicorn myapp:create_app() -b 127.0.0.1:8000 -w 2 --timeout=10 -k gevent
-    env_file:
-      - ./settings/.env
+    #env_file:
+    #  - ./settings/.env
     environment:
-      FLASK_APP: ./app.py
+      FLASK_APP: /myapp
     networks:
       - app-tier
     volumes:
@@ -39,16 +39,16 @@ services:
     build:
       context: ./colorization-AI
 
-    command: flask run --host=127.0.0.1 --port=5050
+    command: flask run --host=127.0.0.1 --port=5555
 
     networks:
       - app-tier
     env_file:
       - ./settings/.env
-    environment:
-      FLASK_APP: ./app.py
+#    environment:
+#      FLASK_APP: ./app.py
     ports:
-      - 5050:5050
+      - 5555:5555
 
   nginx:
     build: ./nginx
@@ -92,7 +92,7 @@ services:
       - "colorization-ai"
     networks:
       - app-tier
-    command: ["celery","-A", "tasks", "worker", "--loglevel=info"]  
+    command: ["celery","-A", "myapp.service.PhotoService", "worker", "--loglevel=info"]  
     volumes:
       - ./backend:/usr/src/app
   
