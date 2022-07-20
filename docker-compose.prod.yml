@@ -9,7 +9,7 @@ services:
     build:
       context: ./backend
 
-    command: gunicorn myapp:create_app() -b 0.0.0.0:5000 -w 2 --timeout=10 -k gevent
+    command: gunicorn -b 0.0.0.0:5000 myapp:create_app()
     env_file: ./settings/prod.env
     environment:
       FLASK_APP: /myapp
@@ -17,6 +17,8 @@ services:
       - app-tier
     volumes:
       - ./backend/:/backend/
+    depends_on:
+      - redis
     ports:
       - 5000:5000
 
@@ -33,7 +35,7 @@ services:
       - build_folder:/frontend/build
       - ./frontend/node_modules/:/frontend/node_modules
     ports:
-      - 3000:3000
+      - 3333:3333
 
   colorization-ai:
     build:
@@ -95,6 +97,17 @@ services:
     command: ["celery","-A", "myapp.service.PhotoService", "worker", "--loglevel=info"]  
     volumes:
       - ./backend:/usr/src/app
+
+  redis:
+    image: redis:alpine
+    command: redis-server --port 6379
+    container_name: redis
+    hostname: redis_host
+    labels:
+      - "name=redis"
+      - "mode=standalone"
+    ports:
+      - 6379:6379
   
 networks:
   app-tier:
