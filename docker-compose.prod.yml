@@ -9,7 +9,7 @@ services:
     build:
       context: ./backend
 
-    command: gunicorn -b 0.0.0.0:5000 myapp:create_app()
+    command: ["python3", "-m", "gunicorn", "--bind", "0.0.0.0:5000","myapp.wsgi:app"]
     env_file: ./settings/prod.env
     environment:
       FLASK_APP: /myapp
@@ -21,6 +21,8 @@ services:
       - redis
     ports:
       - 5000:5000
+    expose:
+      - 5000
 
   frontend:
     build:
@@ -36,13 +38,16 @@ services:
       - ./frontend/node_modules/:/frontend/node_modules
     ports:
       - 3333:3333
+    expose:
+      - 3333
 
   colorization-ai:
     build:
       context: ./colorization-AI
 
-    command: flask run --host=127.0.0.1 --port=5555
-
+    command: ["python", "-m", "flask", "run", "--host=127.0.0.1", "--port=5555"]
+    expose:
+      - 5555
     networks:
       - app-tier
     env_file:
@@ -77,6 +82,8 @@ services:
     ports:
       - 5672:5672
       - 15672:15672
+    expose:
+      - 5672
     depends_on:
       - backend
       - colorization-ai
@@ -94,14 +101,14 @@ services:
       - "colorization-ai"
     networks:
       - app-tier
-    command: ["celery","-A", "myapp.service.PhotoService", "worker", "--loglevel=info"]  
+    command: ["python3", "-m", "celery","-A", "myapp.service.PhotoService", "worker", "--loglevel=info"]  
     volumes:
       - ./backend:/usr/src/app
 
   redis:
     image: redis:alpine
     command: redis-server --port 6379
-    container_name: redis
+    #container_name: redis
     hostname: redis_host
     labels:
       - "name=redis"
