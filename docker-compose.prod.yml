@@ -1,14 +1,10 @@
-
 version: "3"
-
 # 실행 방법
 # docker-compose -f docker-compose.prod.yml up
-
 services:
   backend:
     build:
       context: ./backend
-
     command: ["python3", "-m", "gunicorn", "myapp.wsgi:app", "--bind", "0.0.0.0:5000"]
     env_file: ./settings/prod.env
     environment:
@@ -23,29 +19,22 @@ services:
       - 5000:5000
     expose:
       - 5000
-
   frontend:
     build:
       context: ./frontend
-    command: ["yarn", "start"]
-    networks:
-      - app-tier
-    env_file:
-      - ./settings/prod.env
+      args:
+        ARI_URL: "*"
+    environment:
+      - REACT_APP_BACKEND_URL=http://backend:5000
     volumes:
       - ./frontend/:/frontend
       - build_folder:/frontend/build
       - ./frontend/node_modules/:/frontend/node_modules
-    ports:
-      - 3333:3333
-    expose:
-      - 3333
-
+    tty: true
   colorization-ai:
     build:
       context: ./colorization-AI
-
-    command: ["python3", "-m", "gunicorn","app:app", "--bind", "0.0.0.0:5555"] 
+    command: ["python3", "-m", "gunicorn","app:app", "--bind", "0.0.0.0:5555"]
     networks:
       - app-tier
     env_file:
@@ -54,7 +43,6 @@ services:
       FLASK_APP: ./app.py
     ports:
       - 5555:5555
-
   nginx:
     build: ./nginx
     ports:
@@ -66,7 +54,6 @@ services:
       - frontend
     networks:
       - app-tier
-
   rabbit:
     hostname: rabbit
     image: rabbitmq:3-management
@@ -85,12 +72,11 @@ services:
     depends_on:
       - backend
       - colorization-ai
-
   celery:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    restart: unless-stopped  
+    restart: unless-stopped
     env_file:
       - ./settings/prod.env
     depends_on:
@@ -99,10 +85,9 @@ services:
       - "colorization-ai"
     networks:
       - app-tier
-    command: ["python3", "-m", "celery","-A", "myapp.service.PhotoService", "worker", "--loglevel=info"]  
+    command: ["python3", "-m", "celery","-A", "myapp.service.PhotoService", "worker", "--loglevel=info"]
     volumes:
       - ./backend:/usr/src/app
-
   redis:
     image: redis:alpine
     command: redis-server --port 6379
@@ -110,11 +95,9 @@ services:
       - 6379:6379
     networks:
       - app-tier
-  
 networks:
   app-tier:
     driver: bridge
-
 # 컨테이너 내려도 데이터 유지되도록 함
 volumes:
   media_volume: null
