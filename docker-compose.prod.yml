@@ -19,6 +19,7 @@ services:
       - 5000:5000
     expose:
       - 5000
+
   frontend:
     build:
       context: ./frontend
@@ -31,6 +32,7 @@ services:
       - build_folder:/frontend/build
       - ./frontend/node_modules/:/frontend/node_modules
     tty: true
+
   colorization-ai:
     build:
       context: ./colorization-AI
@@ -43,6 +45,7 @@ services:
       FLASK_APP: ./app.py
     ports:
       - 5555:5555
+
   nginx:
     build: ./nginx
     ports:
@@ -54,6 +57,7 @@ services:
       - frontend
     networks:
       - app-tier
+
   rabbit:
     hostname: rabbit
     image: rabbitmq:3-management
@@ -72,6 +76,7 @@ services:
     depends_on:
       - backend
       - colorization-ai
+
   celery:
     build:
       context: ./backend
@@ -88,6 +93,7 @@ services:
     command: ["python3", "-m", "celery","-A", "myapp.service.PhotoService", "worker", "--loglevel=info"]
     volumes:
       - ./backend:/usr/src/app
+
   redis:
     image: redis:alpine
     command: redis-server --port 6379
@@ -95,6 +101,33 @@ services:
       - 6379:6379
     networks:
       - app-tier
+
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - 9090:9090
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    depends_on:
+      - backend
+    networks: 
+      - app-tier
+    expose:
+      - 9090
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - 3333:3000
+    volumes:
+      - ./datasource.yml:/etc/grafana/provisioning/datasource.yml
+    depends_on:
+      - prometheus
+    networks: 
+      - app-tier
+
 networks:
   app-tier:
     driver: bridge

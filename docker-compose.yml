@@ -1,64 +1,74 @@
 version: "3"
-
+# 실행 방법
+# docker-compose -f docker-compose.prod.yml up
 services:
   backend:
     build:
       context: ./backend
-
-    command: flask run --host=127.0.0.1 --port=5000
-    #env_file:
-    #  - ./settings/.env
+    command: ["python3", "-m", "gunicorn", "myapp.wsgi:app", "--bind", "0.0.0.0:5000"]
+    env_file: ./settings/prod.env
     environment:
-      FLASK_APP: /myapp
-    networks:
-      - app-tier
+      FLASK_APP: myapp
+    # networks:
+    #   - app-tier
     volumes:
       - ./backend/:/backend/
+    depends_on:
+      - redis
     ports:
       - 5000:5000
+    expose:
+      - 5000
 
-  frontend:
-    build:
-      context: ./frontend
-    command: ["yarn", "start"]
-
-    networks:
-      - app-tier
-    volumes:
-      - ./frontend/:/frontend
-      - build_folder:/frontend/build
-      - ./frontend/node_modules/:/frontend/node_modules
-    ports:
-      - 80:3000
+  # frontend:
+  #   build:
+  #     context: ./frontend
+  #     args:
+  #       ARI_URL: "*"
+  #   environment:
+  #     - REACT_APP_BACKEND_URL=http://backend:5000
+  #   volumes:
+  #     - ./frontend/:/frontend
+  #     - build_folder:/frontend/build
+  #     - ./frontend/node_modules/:/frontend/node_modules
+  #   tty: true
 
   colorization-ai:
     build:
       context: ./colorization-AI
-
-    command: flask run --host=127.0.0.1 --port=5555
-
-    networks:
-      - app-tier
+    command: ["python3", "-m", "gunicorn","app:app", "--bind", "0.0.0.0:5555"]
+    # networks:
+    #   - app-tier
     env_file:
-      - ./settings/.env
+      - ./settings/prod.env
     environment:
       FLASK_APP: ./app.py
     ports:
       - 5555:5555
+
+  nginx:
+    build: ./nginx
+    ports:
+      - 80:8080
+    # volumes:
+    #    - ./frontend/build:/var/www/frontend
+    depends_on:
+      - backend
+      # - frontend
 
   rabbit:
     hostname: rabbit
     image: rabbitmq:3-management
     command: rabbitmq-server
     restart: unless-stopped
-    # environment:
-    #   - RABBITMQ_DEFAULT_USER=admin
-    #   - RABBITMQ_DEFAULT_PASS=mypass
-    networks:
-      - app-tier
+    environment:
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_USER}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_PASSWORD}
     ports:
       - 5672:5672
       - 15672:15672
+    expose:
+      - 5672
     depends_on:
       - backend
       - colorization-ai
@@ -67,22 +77,45 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    restart: unless-stopped  
+    restart: unless-stopped
     env_file:
-      - ./settings/.env
+      - ./settings/prod.env
     depends_on:
       - "rabbit"
       - "backend"
       - "colorization-ai"
-    networks:
-      - app-tier
-    command: ["celery","-A", "myapp.service.PhotoService", "worker", "--loglevel=info"]  
+    command: ["python3", "-m", "celery", "-A", "myapp.service.PhotoService", "worker", "--loglevel=info"]
     volumes:
       - ./backend:/usr/src/app
+
+  redis:
+    image: redis:alpine
+    command: redis-server --port 6379
+    ports:
+      - 6379:6379
   
-networks:
-  app-tier:
-    driver: bridge
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - 9090:9090
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    depends_on:
+      - backend
+    expose:
+      - 9090
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - 3333:3000
+    volumes:
+      - ./datasource.yml:/etc/grafana/provisioning/datasource.yml
+    depends_on:
+      - prometheus
+
 
 # 컨테이너 내려도 데이터 유지되도록 함
 volumes:
