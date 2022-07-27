@@ -1,13 +1,10 @@
 name: 'update-submodules-automatically'
 
-on:
-  push:
-    branch: [main]
-  pull_request:
-    branch: [main]
+on: [push, pull-request]
+
 
 jobs:
-  job1:
+  update:
     runs-on : ubuntu-latest
     steps:
     - uses: actions/checkout@v2
