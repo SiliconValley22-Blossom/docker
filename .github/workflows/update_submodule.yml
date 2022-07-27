@@ -1,0 +1,15 @@
+name: 'update-submodules-automatically'
+
+on:
+  push:
+    branch: [main]
+  pull_request:
+    branch: [main]
+
+jobs:
+  job1:
+    runs-on : ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: recursive
