@@ -37,3 +37,7 @@ docker compose up
 ```
 docker-compose -f docker-compose.prod.yml --env-file settings/prod.env  up --build
 ```
+
+- 실행화면
+  - 회원가입
+  - ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/0cfb7c9d-f70c-4010-8a3f-04cb675a0f67/Untitled.gif)
