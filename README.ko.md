@@ -59,8 +59,8 @@
             </a>
         </td>
         <td width="100" align="center">
-            <a href="https://github.com/SEONMI">
-                <img src="http://img.shields.io/badge/SEONMI-green?style=social&logo=github"/>
+            <a href="https://github.com/SEONMl">
+                <img src="http://img.shields.io/badge/SEONMl-green?style=social&logo=github"/>
             </a>
         </td>
         <td width="100" align="center">
