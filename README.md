@@ -41,6 +41,8 @@ docker-compose -f docker-compose.prod.yml --env-file settings/prod.env  up --bui
 ## 프로젝트 개요
 
 ## 프로젝트 아키텍처
+![image](https://user-images.githubusercontent.com/55674648/182015290-475222f1-9a9d-4d0d-916d-2d775421f7b5.png)
+
 
 ## 아키텍처 디자인 패턴
 ### 프론트 아토믹 디자인
