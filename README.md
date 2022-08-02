@@ -1,44 +1,49 @@
-## 프로젝트 클론
+# 프로젝트 빌드 방법
+## 1. 프로젝트 클론
 ```
 git clone --recursive https://github.com/SiliconValley22-Blossom/docker.git
 ```
 
-## 서브모듈 동기화 시 develop 브랜치로 변경
+## 2. prod.env 설정
+```
+FRONTEND_HOST=frontend
+FRONTEND_PORT=3333  
+BACKAND_HOST=backend
+BACKAND_PORT=5000
+AI_HOST=colorization-ai
+AI_PORT=5555
+RDS_ENDPOINT=
+RDS_PORT=3306
+RDS_DATABASE=blossom 
+RDS_NAME=
+RDS_PASSWORD=
 
-```
-git config -f .gitmodules submodule.frontend.branch develop
-git config -f .gitmodules submodule.backend.branch develop
-```
+S3_BUCKET_NAME=
+S3_ID=
+S3_SECRET_KEY=
+S3_PUBLIC_ACCESS_URL=
 
-## 서브 모듈 업데이트
-```
-git submodule update --remote
-```
+RABBITMQ_HOST=rabbit
+RABBITMQ_PORT=5672
+RABBITMQ_USER=
+RABBITMQ_PASSWORD=
 
-# clone 후 처음 실행
-## frontend yarn 받기 (node 업데이트 권장)
-```
-cd frontend
-yarn install
-```
+JWT_KEY=
 
-## 프로젝트 루트로 이동 후 빌드
-```
-cd ../
-docker compose up --build
-```
-
-## 그 이후 실행
-```
-docker compose up
-```
-
-# 배포 환경 실행
-```
-docker-compose -f docker-compose.prod.yml --env-file settings/prod.env  up --build
+MAIL_PASSWORD=
+MAIL_SERVER=smtp.gmail.com
+MAIL_PORT=465
+MAIL_USERNAME=
 ```
 
-## 프로젝트 개요
+## 3. 배포 환경 실행
+```
+docker-compose -f docker-compose.prod.yml --env-file settings/prod.env up --build
+```
+
+
+
+# 프로젝트 개요
 
 
 ## 프로젝트 아키텍처
