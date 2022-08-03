@@ -251,29 +251,17 @@ colorization-AI
 
   - 비밀번호 변경
 
-<img src=""/>
+<img src="https://user-images.githubusercontent.com/55674648/182511712-34ab6688-ad90-496b-824f-a1a9b5869045.gif"/>
 
   - 컬러화
 
-<img src=""/>
-
-  - 결과 대기
-
-
-<img src=""/>
-  - 결과 보기
-
-<img src=""/>
+<img src="https://user-images.githubusercontent.com/55674648/182512184-9ac112ce-075c-4c33-a472-08ce1a4c7cb2.gif"/>
 
   - 마이페이지 (호버) --
 
 <img src=""/>
 
-  - 마이 프로필
-
-<img src="https://user-images.githubusercontent.com/55674648/182507416-418fe9a8-8010-42ec-a1fc-22003696a84e.gif"/>
-
-  - admin 페이지
+  - admin 페이지 - 스크롤 이벤트
     - 유저 삭제
     - 유저 제작한 이미지 조회
   - 경고창
