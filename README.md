@@ -262,8 +262,18 @@ colorization-AI
 <img src="https://user-images.githubusercontent.com/55674648/182524135-bdbd6b16-94ee-496d-9a55-a58ec7bf1084.gif"/>
 
   - admin 페이지 - 스크롤 이벤트
+  
+    <img src="https://user-images.githubusercontent.com/77226122/182541238-f170cbb9-6e44-4839-91a7-83cd145bf8ac.gif"/>
+
+
     - 유저 삭제
+
+    <img src="https://user-images.githubusercontent.com/77226122/182541312-bb5144d7-5615-4201-aee4-35a87cc6ae0d.gif"/>
+    
+
     - 유저 제작한 이미지 조회
+
+
   - 경고창
   - 반응형 적용
 
