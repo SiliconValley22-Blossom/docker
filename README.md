@@ -241,7 +241,7 @@ colorization-AI
 
 <img src="https://user-images.githubusercontent.com/55674648/182505778-676bbc1a-c55f-482d-9574-0179420d405d.gif"/>
  
-  - 로그인/로그아웃
+  - 로그인
 
 <img src="https://user-images.githubusercontent.com/55674648/182369941-5749f509-f627-4b47-a5c8-ae349089ff9b.gif"/>
 
@@ -257,9 +257,9 @@ colorization-AI
 
 <img src="https://user-images.githubusercontent.com/55674648/182512184-9ac112ce-075c-4c33-a472-08ce1a4c7cb2.gif"/>
 
-  - 마이페이지 (호버) --
+  - 마이페이지
 
-<img src=""/>
+<img src="https://user-images.githubusercontent.com/55674648/182524135-bdbd6b16-94ee-496d-9a55-a58ec7bf1084.gif"/>
 
   - admin 페이지 - 스크롤 이벤트
     - 유저 삭제
