@@ -1,16 +1,19 @@
 # ![PurpleLogo-BOutline](https://user-images.githubusercontent.com/78634177/182301688-36ef5a94-8fff-4c76-a35d-45b685071022.png)
 
-흑백 사진을 컬러 사진으로 복원할 수 있다면?
+흑백 사진을 단 한 번의 클릭만으로 컬러복원하는 서비스입니다.
 
-흑백 사진을 편집 프로그램 없이 자동으로 컬러 사진으로 복원할 수 있습니다.
+Blossom이 여러분들의 추억을 다시 그려드리겠습니다. 🌸
 
+Would you believe if we could colorize your monochrome photos?
+
+We, Blossom will bring your old memories back to life. 🌸
 
 ---
-## 아키텍처
+## System Architecture
 ![image](https://user-images.githubusercontent.com/55674648/182015290-475222f1-9a9d-4d0d-916d-2d775421f7b5.png)
 
 ---
-## 기술스택
+## Tech Stack
 
 <div align =center> 
   <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white"> 
@@ -36,11 +39,60 @@
   <img src="https://img.shields.io/badge/swagger-85EA2D?style=for-the-badge&logo=swagger&logoColor=black">
   <img src="https://img.shields.io/badge/Git-73398D?style=for-the-badge&logo=git&logoColor=white">
 </div>
+<b>
+
+# Installation
+>### Clone Repository
+```
+git clone --recursive https://github.com/SiliconValley22-Blossom/docker.git
+```
+
+>### Set prod.env in the Settings folder
+
+```
+FRONTEND_HOST=frontend
+FRONTEND_PORT=3333  
+BACKAND_HOST=backend
+BACKAND_PORT=5000
+AI_HOST=colorization-ai
+AI_PORT=5555
+RDS_ENDPOINT=
+RDS_PORT=3306
+RDS_DATABASE=blossom 
+RDS_NAME=
+RDS_PASSWORD=
+
+S3_BUCKET_NAME=
+S3_ID=
+S3_SECRET_KEY=
+S3_PUBLIC_ACCESS_URL=
+
+RABBITMQ_HOST=rabbit
+RABBITMQ_PORT=5672
+RABBITMQ_USER=
+RABBITMQ_PASSWORD=
+
+JWT_KEY=
+
+MAIL_PASSWORD=
+MAIL_SERVER=smtp.gmail.com
+MAIL_PORT=465
+MAIL_USERNAME=
+```
+
+>### Run deployment env. 
+```
+docker-compose -f docker-compose.prod.yml --env-file settings/prod.env up --build
+```
 
 ---
-## 디렉토리 
+## Submodule Directories
 
-<details><summary>서브모듈 디렉토리 구조</summary>
+<details>
+<summary>FRONTEND </summary>
+컴포넌트 재사용성을 향상시키기 위하여 아토믹 디자인을 기준으로 디렉토리를 구조화하였습니다.
+
+<img src="https://fe-developers.kakaoent.com/static/34afd4d0a47ff85c8f34295c18c2e374/f058b/atomic-design-flow.png"/>
 
 ```
 frontend
@@ -48,118 +100,123 @@ frontend
 ├── README.md 
 ├── package.json 
 ├──src
-    ├── App.css
-    ├── App.js
-    ├── components
-    │   ├── atom
-    │   │   ├── Button.jsx
-    │   │   ├── Display.jsx
-    │   │   ├── DownloadButton.jsx
-    │   │   ├── Input.jsx
-    │   │   ├── Loading.jsx
-    │   │   ├── MenuItems_colorize.jsx
-    │   │   ├── MenuItems_mypage.jsx
-    │   │   ├── MenuList.jsx
-    │   │   └── TextLink.jsx
-    │   ├── molecule
-    │   │   ├── DropDown
-    │   │   │   ├── DropDown.css
-    │   │   │   ├── DropDown_colorize.jsx
-    │   │   │   └── DropDown_mypage.jsx
-    │   │   ├── NavBar
-    │   │   │   ├── NavBar_colorize.css
-    │   │   │   ├── NavBar_colorize.jsx
-    │   │   │   ├── NavBar_mypage.css
-    │   │   │   └── NavBar_mypage.jsx
-    │   │   └── User_info.jsx
-    │   ├── organisms
-    │   │   ├── AdminWrapper.jsx
-    │   │   ├── ChangeInfoWrapper.jsx
-    │   │   ├── ColorizeFinishWrapper.jsx
-    │   │   ├── ColorizeWrapper.jsx
-    │   │   ├── FindPWWrapper.jsx
-    │   │   ├── HomeWrapper.jsx
-    │   │   ├── LoginWrapper.jsx
-    │   │   ├── MyPageWrapper.jsx
-    │   │   ├── MyProfileWrapper.jsx
-    │   │   ├── OthersUserWrapper.jsx
-    │   │   └── SignUpWrapper.jsx
-    │   └── page
-    │       ├── Admin.jsx
-    │       ├── ChangeInfo.jsx
-    │       ├── Colorize.jsx
-    │       ├── ColorizeFinish.jsx
-    │       ├── FindPW.jsx
-    │       ├── Home.jsx
-    │       ├── Login.jsx
-    │       ├── MyPage.jsx
-    │       ├── MyProfile.jsx
-    │       ├── OthersUser.jsx
-    │       └── SignUp.jsx
-    ├── fonts
-    │   ├── Cormorant-Bold.ttf
-    │   ├── Cormorant-BoldItalic.ttf
-    │   ├── Cormorant-Italic.ttf
-    │   ├── Cormorant-Light.ttf
-    │   ├── Cormorant-LightItalic.ttf
-    │   ├── Cormorant-Medium.ttf
-    │   ├── Cormorant-MediumItalic.ttf
-    │   ├── Cormorant-Regular.ttf
-    │   ├── Cormorant-SemiBold.ttf
-    │   ├── Cormorant-SemiBoldItalic.ttf
-    │   └── font.css
-    ├── index.css
-    ├── index.js
-    ├── logo-4.svg
-    ├── logo-5.svg
-    ├── reportWebVitals.js
-    └── setupTests.js
+    ├── App.css
+    ├── App.js
+    ├── components
+    │   ├── atom
+    │   │   ├── Button.jsx
+    │   │   ├── Display.jsx
+    │   │   ├── DownloadButton.jsx
+    │   │   ├── Input.jsx
+    │   │   ├── Loading.jsx
+    │   │   ├── MenuItems_colorize.jsx
+    │   │   ├── MenuItems_mypage.jsx
+    │   │   ├── MenuList.jsx
+    │   │   └── TextLink.jsx
+    │   ├── molecule
+    │   │   ├── DropDown
+    │   │   │   ├── DropDown.css
+    │   │   │   ├── DropDown_colorize.jsx
+    │   │   │   └── DropDown_mypage.jsx
+    │   │   ├── NavBar
+    │   │   │   ├── NavBar_colorize.css
+    │   │   │   ├── NavBar_colorize.jsx
+    │   │   │   ├── NavBar_mypage.css
+    │   │   │   └── NavBar_mypage.jsx
+    │   │   └── User_info.jsx
+    │   ├── organisms
+    │   │   ├── AdminWrapper.jsx
+    │   │   ├── ChangeInfoWrapper.jsx
+    │   │   ├── ColorizeFinishWrapper.jsx
+    │   │   ├── ColorizeWrapper.jsx
+    │   │   ├── FindPWWrapper.jsx
+    │   │   ├── HomeWrapper.jsx
+    │   │   ├── LoginWrapper.jsx
+    │   │   ├── MyPageWrapper.jsx
+    │   │   ├── MyProfileWrapper.jsx
+    │   │   ├── OthersUserWrapper.jsx
+    │   │   └── SignUpWrapper.jsx
+    │   └── page
+    │       ├── Admin.jsx
+    │       ├── ChangeInfo.jsx
+    │       ├── Colorize.jsx
+    │       ├── ColorizeFinish.jsx
+    │       ├── FindPW.jsx
+    │       ├── Home.jsx
+    │       ├── Login.jsx
+    │       ├── MyPage.jsx
+    │       ├── MyProfile.jsx
+    │       ├── OthersUser.jsx
+    │       └── SignUp.jsx
+    ├── fonts
+    │   ├── Cormorant-Bold.ttf
+    │   ├── Cormorant-BoldItalic.ttf
+    │   ├── Cormorant-Italic.ttf
+    │   ├── Cormorant-Light.ttf
+    │   ├── Cormorant-LightItalic.ttf
+    │   ├── Cormorant-Medium.ttf
+    │   ├── Cormorant-MediumItalic.ttf
+    │   ├── Cormorant-Regular.ttf
+    │   ├── Cormorant-SemiBold.ttf
+    │   ├── Cormorant-SemiBoldItalic.ttf
+    │   └── font.css
+    ├── index.css
+    ├── index.js
+    ├── logo-4.svg
+    ├── logo-5.svg
+    ├── reportWebVitals.js
+    └── setupTests.js
 ```
 </details>
 
 <details>
-<summary>아토믹 디자인으로 구현</summary>
+<summary>BACKAND</summary>
+
+<img src="https://user-images.githubusercontent.com/55674648/182311536-f1f6f4a7-2b48-4225-9c88-cb0d21f880ed.png"/>
+
 
 ```
 backend
 ├── Dockerfile
 ├── README.md
 ├── myapp
-│   ├── __init__.py
-│   ├── configs
-│   │   ├── AiServerConfig.py
-│   │   ├── DatabaseConfig.py
-│   │   ├── JwtConfig.py
-│   │   ├── S3Config.py
-│   │   ├── __init__.py
-│   ├── controller
-│   │   ├── AdminController.py
-│   │   ├── ApiRouter.py
-│   │   ├── LoginController.py
-│   │   ├── LogoutController.py
-│   │   ├── PhotoController.py
-│   │   ├── RefreshController.py
-│   │   ├── UserController.py
-│   │   ├── __init__.py
-│   ├── entity
-│   │   ├── Entity.py
-│   │   ├── __init__.py
-│   ├── service
-│   │   ├── AdminService.py
-│   │   ├── LoginService.py
-│   │   ├── PhotoService.py
-│   │   ├── TokenService.py
-│   │   ├── UserService.py
-│   │   ├── __init__.py
-│   ├── util
-│   │   ├── EncryptManager.py
-│   │   ├── __init__.py
-│   └── wsgi.py
+│   ├── __init__.py
+│   ├── configs
+│   │   ├── AiServerConfig.py
+│   │   ├── DatabaseConfig.py
+│   │   ├── JwtConfig.py
+│   │   ├── S3Config.py
+│   │   ├── __init__.py
+│   ├── controller
+│   │   ├── AdminController.py
+│   │   ├── ApiRouter.py
+│   │   ├── LoginController.py
+│   │   ├── LogoutController.py
+│   │   ├── PhotoController.py
+│   │   ├── RefreshController.py
+│   │   ├── UserController.py
+│   │   ├── __init__.py
+│   ├── entity
+│   │   ├── Entity.py
+│   │   ├── __init__.py
+│   ├── service
+│   │   ├── AdminService.py
+│   │   ├── LoginService.py
+│   │   ├── PhotoService.py
+│   │   ├── TokenService.py
+│   │   ├── UserService.py
+│   │   ├── __init__.py
+│   ├── util
+│   │   ├── EncryptManager.py
+│   │   ├── __init__.py
+│   └── wsgi.py
 └── requirements.txt
 ```
 </details>
 
-<details><summary>여기 제목</summary>
+<details>
+<summary>COLORIZATION-AI</summary>
+
 ```
 colorization-AI
 ├── Dockerfile
@@ -167,9 +224,9 @@ colorization-AI
 ├── app.py
 ├── requirements.txt
 ├── service
-│   ├── __init__.py
-│   ├── baseColor.py
-│   └── generator.py
+│   ├── __init__.py
+│   ├── baseColor.py
+│   └── generator.py
 └── util
     ├── __init__.py
     └── imageLoader.py
@@ -177,15 +234,58 @@ colorization-AI
 </details>
 
 ---
-## 프로젝트 결과물
+## Features
 
 - 프론트 gif
-- api doc
-- grafana
+  - 회원가입
 
+<img src="https://user-images.githubusercontent.com/55674648/182505778-676bbc1a-c55f-482d-9574-0179420d405d.gif"/>
+ 
+  - 로그인/로그아웃
+
+<img src="https://user-images.githubusercontent.com/55674648/182369941-5749f509-f627-4b47-a5c8-ae349089ff9b.gif"/>
+
+  - 임시 비밀번호 생성 후 메일로 전송
+
+<img src="https://user-images.githubusercontent.com/55674648/182507416-418fe9a8-8010-42ec-a1fc-22003696a84e.gif"/>
+
+  - 비밀번호 변경
+
+<img src=""/>
+
+  - 컬러화
+
+<img src=""/>
+
+  - 결과 대기
+
+
+<img src=""/>
+  - 결과 보기
+
+<img src=""/>
+
+  - 마이페이지 (호버) --
+
+<img src=""/>
+
+  - 마이 프로필
+
+<img src="https://user-images.githubusercontent.com/55674648/182507416-418fe9a8-8010-42ec-a1fc-22003696a84e.gif"/>
+
+  - admin 페이지
+    - 유저 삭제
+    - 유저 제작한 이미지 조회
+  - 경고창
+  - 반응형 적용
+
+- [BACKEND API DOC](https://siliconvalley22-blossom.github.io/blossom.github.io/)
+- 모니터링
+prometheus & grafana
+<img src="https://user-images.githubusercontent.com/55674648/182312846-2d815526-84bf-4674-9c28-d809528c4cf6.png">
 
 ---
-## 프로젝트 참여자
+## Our Team
 <table width="950">
     <thead>
     </thead>
@@ -280,53 +380,7 @@ colorization-AI
     </tbody>
 </table>
 
+
 ## Reference
 ---
-- [AI 트레이닝](https://github.com/richzhang/colorization)
-
-# 프로젝트 빌드 방법
-### 1. 프로젝트 클론
-```
-git clone --recursive https://github.com/SiliconValley22-Blossom/docker.git
-```
-
-### 2. settings폴더 하위에 prod.env 설정
-```
-FRONTEND_HOST=frontend
-FRONTEND_PORT=3333  
-BACKAND_HOST=backend
-BACKAND_PORT=5000
-AI_HOST=colorization-ai
-AI_PORT=5555
-RDS_ENDPOINT=
-RDS_PORT=3306
-RDS_DATABASE=blossom 
-RDS_NAME=
-RDS_PASSWORD=
-
-S3_BUCKET_NAME=
-S3_ID=
-S3_SECRET_KEY=
-S3_PUBLIC_ACCESS_URL=
-
-RABBITMQ_HOST=rabbit
-RABBITMQ_PORT=5672
-RABBITMQ_USER=
-RABBITMQ_PASSWORD=
-
-JWT_KEY=
-
-MAIL_PASSWORD=
-MAIL_SERVER=smtp.gmail.com
-MAIL_PORT=465
-MAIL_USERNAME=
-```
-
-### 3. 배포 환경 실행
-```
-docker-compose -f docker-compose.prod.yml --env-file settings/prod.env up --build
-```
-
-<div>
-
-</div>
+- [AI 모델](https://github.com/richzhang/colorization)
