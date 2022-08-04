@@ -259,7 +259,7 @@ colorization-AI
 - 관리자 페이지
 <img src="https://user-images.githubusercontent.com/77226122/182767344-b0c8f641-a4df-4025-afcc-f930181d4f90.gif">
 - 유저 이미지 확인
-<img src="https://user-images.githubusercontent.com/77226122/182767537-61036515-084f-41a8-b558-9616ede24a99.gif">
+<img src="https://user-images.githubusercontent.com/77226122/182794237-c9700347-fd7a-4b86-8088-3a4e36a9ab2d.gif">
 - 유저 강제 탈퇴
 <img src="https://user-images.githubusercontent.com/77226122/182767783-1533aad8-7a7b-4c91-89a2-260c5ba120b8.gif">
 - 반응형 적용
