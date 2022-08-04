@@ -237,44 +237,31 @@ colorization-AI
 ## Features
 - 회원가입
 <img src="https://user-images.githubusercontent.com/77226122/182764728-c098501b-04e9-4695-8b24-eb797e8e5f24.gif">
-##
 - 로그인
 <img src="https://user-images.githubusercontent.com/77226122/182764835-a1f3e702-01db-4e95-a8bc-ea87e43c0b72.gif">
-##
 - 로그아웃
 <img src="https://user-images.githubusercontent.com/77226122/182766454-50a3474a-45db-4900-8da2-379948aee233.gif">
-##
 - 이미지 컬러 복원
 <img src="https://user-images.githubusercontent.com/77226122/182765604-f5854f16-84af-40c3-9544-ace192295d52.gif">
-##
 - 이미지 다운로드
 <img src="https://user-images.githubusercontent.com/77226122/182765939-c1d5d830-f256-47be-a475-214ca1ad21f2.gif">
-##
 - 마이페이지
 <img src="https://user-images.githubusercontent.com/77226122/182766238-7d8bc8cf-3a69-4d51-87a3-9ecc59b6e7fa.gif">
-##
 - 마이프로필
 <img src="https://user-images.githubusercontent.com/77226122/182766619-d5ba9cee-47a2-4075-b142-ad5de0c70245.gif">
-##
 - 비밀번호 변경
 <img src="https://user-images.githubusercontent.com/77226122/182766973-05ee87b3-5904-4b24-87b3-b4e2f2175dfa.gif">
-##
 - 관리자 페이지
 <img src="https://user-images.githubusercontent.com/77226122/182767344-b0c8f641-a4df-4025-afcc-f930181d4f90.gif">
-##
 - 유저 이미지 확인
 <img src="https://user-images.githubusercontent.com/77226122/182767537-61036515-084f-41a8-b558-9616ede24a99.gif">
-##
 - 유저 강제 탈퇴
 <img src="https://user-images.githubusercontent.com/77226122/182767783-1533aad8-7a7b-4c91-89a2-260c5ba120b8.gif">
-##
 - 반응형 적용
 <img src="https://user-images.githubusercontent.com/77226122/182768988-355d4ad8-2da6-4aa5-ba07-ffe3be9fd294.gif">
-##
 - 모니터링
 prometheus & grafana
 <img src="https://user-images.githubusercontent.com/55674648/182312846-2d815526-84bf-4674-9c28-d809528c4cf6.png">
-##
 - [BACKEND API DOC](https://siliconvalley22-blossom.github.io/blossom.github.io/)
 ---
 ## Our Team
