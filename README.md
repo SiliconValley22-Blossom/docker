@@ -266,8 +266,8 @@ colorization-AI
 <img src="https://user-images.githubusercontent.com/77226122/182768988-355d4ad8-2da6-4aa5-ba07-ffe3be9fd294.gif">
 - Monitoring Tools
 
-    prometheus & grafana
-    <img src="https://user-images.githubusercontent.com/55674648/182312846-2d815526-84bf-4674-9c28-d809528c4cf6.png">
+  prometheus & grafana
+  <img src="https://user-images.githubusercontent.com/55674648/182312846-2d815526-84bf-4674-9c28-d809528c4cf6.png">
 - [BACKEND API DOC](https://siliconvalley22-blossom.github.io/blossom.github.io/)
 ---
 ## Our Team
