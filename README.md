@@ -4,10 +4,6 @@
 
 Blossom이 여러분들의 추억을 다시 그려드리겠습니다. 🌸
 
-Would you believe if we could colorize your monochrome photos?
-
-We, Blossom will bring your old memories back to life. 🌸
-
 ---
 ## System Architecture
 ![image](https://user-images.githubusercontent.com/55674648/182015290-475222f1-9a9d-4d0d-916d-2d775421f7b5.png)
