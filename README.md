@@ -90,6 +90,7 @@ docker-compose -f docker-compose.prod.yml --env-file settings/prod.env up --buil
 
 <details>
 <summary>FRONTEND </summary>
+
 컴포넌트 재사용성을 향상시키기 위하여 아토믹 디자인을 기준으로 디렉토리를 구조화하였습니다.
 
 <img src="https://fe-developers.kakaoent.com/static/34afd4d0a47ff85c8f34295c18c2e374/f058b/atomic-design-flow.png"/>
@@ -172,7 +173,11 @@ frontend
 <details>
 <summary>BACKAND</summary>
 
-<img src="https://user-images.githubusercontent.com/55674648/182311536-f1f6f4a7-2b48-4225-9c88-cb0d21f880ed.png"/>
+MVC Pattern을 적용하여  Model과 Controller를 Backend에서 관리하도록 하였습니다.
+
+또한 Business Logic과 Service Logic을 분리하였습니다.
+<img src="https://velog.velcdn.com/images/y-jin112/post/25995f06-ccfa-497b-8d57-9383c71e1549/image.png"/>
+<img src="https://hsalem.com/posts/architecture-styles-layered-architecture/layered-architecture-db-separation.png"/>
 
 
 ```
@@ -259,9 +264,10 @@ colorization-AI
 <img src="https://user-images.githubusercontent.com/77226122/182767783-1533aad8-7a7b-4c91-89a2-260c5ba120b8.gif">
 - 반응형 적용
 <img src="https://user-images.githubusercontent.com/77226122/182768988-355d4ad8-2da6-4aa5-ba07-ffe3be9fd294.gif">
-- 모니터링
-prometheus & grafana
-<img src="https://user-images.githubusercontent.com/55674648/182312846-2d815526-84bf-4674-9c28-d809528c4cf6.png">
+- Monitoring Tools
+
+    prometheus & grafana
+    <img src="https://user-images.githubusercontent.com/55674648/182312846-2d815526-84bf-4674-9c28-d809528c4cf6.png">
 - [BACKEND API DOC](https://siliconvalley22-blossom.github.io/blossom.github.io/)
 ---
 ## Our Team
@@ -359,7 +365,7 @@ prometheus & grafana
     </tbody>
 </table>
 
-
+---
 ## Reference
 ---
 - [AI 모델](https://github.com/richzhang/colorization)
