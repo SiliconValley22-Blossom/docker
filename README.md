@@ -313,11 +313,11 @@ colorization-AI
     </tr>
     <tr>
         <th>이름</th>
-        <td width="100" align="center">박현준</td>
-        <td width="100" align="center">박선미</td>
-        <td width="100" align="center">김지윤</td>
-        <td width="100" align="center">신영진</td>
-        <td width="100" align="center">김하민</td>
+        <td width="100" align="center">박현준 Hyunjun Park</td>
+        <td width="100" align="center">박선미 Seonmi Park</td>
+        <td width="100" align="center">김지윤 Jiyoon Kim</td>
+        <td width="100" align="center">신영진 Youngjin Shin</td>
+        <td width="100" align="center">김하민 Hamin Kim</td>
     </tr>
     <tr>
         <th>역할</th>
